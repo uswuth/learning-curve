@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>Programming Concept Navigator</title>
+		<style>
+			:root {
+				--bg: #0d0d0d;
+				--panel: #141414;
+				--panel2: #191919;
+				--border: #292929;
+				--text: #e8e8e8;
+				--muted: #8d8d8d;
+				--accent: #b7c9ff;
+				--accent2: #8ea8ff;
+				--radius: 10px;
+			}
+			* {
+				box-sizing: border-box;
+			}
+			body {
+				margin: 0;
+				background: var(--bg);
+				color: var(--text);
+				font:
+					15px/1.55 system-ui,
+					-apple-system,
+					Segoe UI,
+					sans-serif;
+			}
+			button,
+			input {
+				font: inherit;
+			}
+			.app {
+				max-width: 1100px;
+				margin: auto;
+				padding: 28px 20px 60px;
+			}
+			header {
+				margin-bottom: 22px;
+			}
+			h1 {
+				font-size: 26px;
+				margin: 0 0 5px;
+			}
+			.subtitle {
+				color: var(--muted);
+				margin: 0;
+			}
+			.search {
+				width: 100%;
+				background: var(--panel);
+				border: 1px solid var(--border);
+				color: var(--text);
+				padding: 12px 14px;
+				border-radius: var(--radius);
+				outline: none;
+				margin: 18px 0;
+			}
+			.search:focus {
+				border-color: var(--accent2);
+			}
+			.layout {
+				display: grid;
+				grid-template-columns: 250px 1fr;
+				gap: 18px;
+			}
+			nav {
+				position: sticky;
+				top: 18px;
+				align-self: start;
+				max-height: calc(100vh - 36px);
+				overflow: auto;
+			}
+			.nav-title {
+				font-size: 11px;
+				color: var(--muted);
+				text-transform: uppercase;
+				letter-spacing: 0.12em;
+				margin: 0 0 8px;
+			}
+			.nav button {
+				width: 100%;
+				text-align: left;
+				background: none;
+				border: 1px solid transparent;
+				color: #aaa;
+				padding: 9px 10px;
+				border-radius: 7px;
+				cursor: pointer;
+			}
+			.nav button:hover,
+			.nav button.active {
+				background: var(--panel);
+				color: var(--text);
+				border-color: var(--border);
+			}
+			main {
+				min-width: 0;
+			}
+			.card {
+				background: var(--panel);
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+				padding: 22px;
+			}
+			.eyebrow {
+				color: var(--accent);
+				font-size: 12px;
+				text-transform: uppercase;
+				letter-spacing: 0.12em;
+			}
+			h2 {
+				font-size: 22px;
+				margin: 5px 0 20px;
+			}
+			h3 {
+				font-size: 15px;
+				margin: 24px 0 8px;
+			}
+			ol {
+				padding-left: 23px;
+				margin-top: 8px;
+			}
+			li {
+				margin: 7px 0;
+			}
+			code {
+				background: #202020;
+				padding: 2px 5px;
+				border-radius: 4px;
+			}
+			pre {
+				background: #0a0a0a;
+				border: 1px solid var(--border);
+				padding: 14px;
+				overflow: auto;
+				border-radius: 8px;
+				color: #d8d8d8;
+			}
+			.flow {
+				display: grid;
+				gap: 8px;
+				margin: 15px 0;
+			}
+			.step {
+				background: var(--panel2);
+				border: 1px solid var(--border);
+				padding: 12px;
+				border-radius: 8px;
+			}
+			.step strong {
+				display: block;
+				margin-bottom: 2px;
+			}
+			.arrow {
+				text-align: center;
+				color: var(--muted);
+			}
+			.badge {
+				display: inline-block;
+				border: 1px solid var(--border);
+				color: var(--muted);
+				padding: 2px 7px;
+				border-radius: 99px;
+				font-size: 11px;
+			}
+			.empty {
+				padding: 50px;
+				text-align: center;
+				color: var(--muted);
+				display: none;
+			}
+			@media (max-width: 760px) {
+				.layout {
+					grid-template-columns: 1fr;
+				}
+				.nav {
+					position: static;
+				}
+				.nav button {
+					display: inline-block;
+					width: auto;
+				}
+				.card {
+					padding: 17px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="app">
+			<header>
+				<h1>Programming Concept Navigator</h1>
+				<p class="subtitle">
+					Encounter something → classify it → ask the right questions →
+					understand the concept → then learn the syntax.
+				</p>
+				<input
+					id="search"
+					class="search"
+					placeholder="Search: function, method, database, query, error, framework..."
+				/>
+			</header>
+
+			<div class="layout">
+				<nav class="nav" id="nav">
+					<div class="nav-title">Concepts</div>
+				</nav>
+
+				<main>
+					<div id="content"></div>
+					<div id="empty" class="empty">No matching concept.</div>
+				</main>
+			</div>
+		</div>
+
+		<script>
+			const concepts = [
+				[
+					"Variable",
+					"Data",
+					[
+						"What problem do variables solve?",
+						"Why can't we just work directly with values?",
+						"What exactly is being named?",
+						"What is the difference between a name and a value?",
+						"Where does the value live?",
+						"How is the value accessed?",
+						"Can the value change?",
+						"What determines its type?",
+						"What happens when its scope ends?",
+						"How do different languages represent variables?",
+						"What syntax does this language use?",
+						"What restrictions or trade-offs exist?",
+					],
+				],
+				[
+					"Type",
+					"Data",
+					[
+						"What problem do types solve?",
+						"Why does the program need to know the kind of a value?",
+						"What does a type actually describe?",
+						"What values can this type represent?",
+						"What operations are allowed?",
+						"What operations are invalid?",
+						"When is the type checked?",
+						"Can the type change during execution?",
+						"Who defines the type?",
+						"How do different languages implement types?",
+						"What syntax represents the type?",
+						"What are the trade-offs of this type system?",
+					],
+				],
+				[
+					"Function",
+					"Behavior",
+					[
+						"What problem do functions solve?",
+						"Why separate behavior into functions?",
+						"What is a function conceptually?",
+						"What are its inputs?",
+						"What processing does it perform?",
+						"What does it return?",
+						"Who calls it?",
+						"What happens when it is called?",
+						"What happens when it finishes?",
+						"What happens if it fails?",
+						"How do different languages define functions?",
+						"What syntax does this language use?",
+						"What are the limitations or trade-offs?",
+					],
+				],
+				[
+					"Method",
+					"Behavior",
+					[
+						"What problem does a method solve?",
+						"How is a method different from a function?",
+						"What object or type is the method associated with?",
+						"What is the receiver or owner?",
+						"What data can the method access?",
+						"Who can call it?",
+						"How does the call reach the method?",
+						"Does it modify the object's state?",
+						"What does it return?",
+						"How do different languages implement methods?",
+						"What syntax does this language use?",
+						"What design trade-offs exist?",
+					],
+				],
+				[
+					"Control Flow",
+					"Control",
+					[
+						"What problem does control flow solve?",
+						"Why can't a program simply execute everything sequentially?",
+						"What determines the next statement?",
+						"What decisions can the program make?",
+						"What can repeat?",
+						"What can terminate early?",
+						"Where can execution branch?",
+						"Where does execution rejoin?",
+						"What happens in every possible branch?",
+						"What happens if a condition is unexpected?",
+						"How do languages represent branching and repetition?",
+						"What syntax does this language use?",
+						"What are the readability and complexity trade-offs?",
+					],
+				],
+				[
+					"Loop",
+					"Control",
+					[
+						"What problem does repetition solve?",
+						"Why is repeating code manually a problem?",
+						"What determines whether another iteration happens?",
+						"What is the initial state?",
+						"What changes after each iteration?",
+						"What is the termination condition?",
+						"Can it execute zero times?",
+						"Can it execute forever?",
+						"What happens to state between iterations?",
+						"How does the program exit the loop?",
+						"How do languages implement loops?",
+						"What syntax does this language use?",
+						"What are the performance and readability trade-offs?",
+					],
+				],
+				[
+					"Collection",
+					"Data",
+					[
+						"What problem does a collection solve?",
+						"Why store multiple values together?",
+						"Is the data ordered?",
+						"How is an element identified?",
+						"How is an element accessed?",
+						"Can elements be added or removed?",
+						"Can duplicate values exist?",
+						"How is the collection traversed?",
+						"What happens when accessing missing data?",
+						"What are the memory and performance characteristics?",
+						"What collection types does the language provide?",
+						"What syntax does this language use?",
+						"When should each collection type be used?",
+					],
+				],
+				[
+					"Structured Data / Object",
+					"Data",
+					[
+						"What problem does structured data solve?",
+						"Why group multiple values together?",
+						"What does one instance represent?",
+						"What fields or properties does it contain?",
+						"What types do those fields have?",
+						"Who creates an instance?",
+						"Who can access or modify its fields?",
+						"How does it behave?",
+						"Can it contain methods?",
+						"What happens when data is missing or invalid?",
+						"How do languages model structured data?",
+						"What syntax does this language use?",
+						"What are the design trade-offs?",
+					],
+				],
+				[
+					"Abstraction",
+					"Design",
+					[
+						"What complexity are we trying to hide?",
+						"Why should that complexity be hidden?",
+						"What does the caller actually need to know?",
+						"What implementation details can remain hidden?",
+						"What interface or boundary is exposed?",
+						"What behavior does the abstraction promise?",
+						"Who defines the abstraction?",
+						"Who consumes it?",
+						"What happens when the implementation changes?",
+						"How do languages implement abstraction?",
+						"What mechanisms does this language use?",
+						"What are the costs of abstraction?",
+					],
+				],
+				[
+					"Encapsulation",
+					"Design",
+					[
+						"What state needs protection?",
+						"Why shouldn't everything be directly accessible?",
+						"Who should be allowed to access the state?",
+						"Who should be allowed to modify it?",
+						"What operations are exposed?",
+						"What implementation details are hidden?",
+						"Where is the access boundary?",
+						"What happens when invalid state is attempted?",
+						"How do languages control visibility?",
+						"What syntax does this language use?",
+						"What are the trade-offs?",
+					],
+				],
+				[
+					"Memory / Pointers",
+					"Memory",
+					[
+						"Why does a program need memory?",
+						"What is a value?",
+						"Where is the value stored?",
+						"What is an address?",
+						"What is a reference to a value?",
+						"Who allocates the memory?",
+						"Who owns it?",
+						"How long does it live?",
+						"Who releases it?",
+						"What happens if memory is accessed incorrectly?",
+						"How do different languages manage memory?",
+						"What syntax represents memory or reference concepts?",
+						"What are the safety and performance trade-offs?",
+					],
+				],
+				[
+					"Error Handling",
+					"Reliability",
+					[
+						"What problem does failure create?",
+						"Why can this operation fail?",
+						"What exactly counts as an error?",
+						"How is failure represented?",
+						"Who detects the failure?",
+						"How does the failure travel?",
+						"Who decides what to do?",
+						"Can the operation recover?",
+						"Can it be retried?",
+						"What happens if nobody handles it?",
+						"How do different languages implement failure?",
+						"What syntax does this language use?",
+						"What are the trade-offs?",
+					],
+				],
+				[
+					"Module / Package",
+					"Organization",
+					[
+						"What problem does this solve?",
+						"Why can't all code live in one file?",
+						"What code belongs together?",
+						"What does this module own?",
+						"What does it expose?",
+						"What does it hide?",
+						"Who can import or use it?",
+						"How are dependencies connected?",
+						"What happens if modules depend on each other?",
+						"How does the language resolve or import them?",
+						"What syntax does this language use?",
+						"What architectural trade-offs exist?",
+					],
+				],
+				[
+					"Library",
+					"Ecosystem",
+					[
+						"What problem does this library solve?",
+						"Why use it instead of writing the functionality myself?",
+						"What functionality does it provide?",
+						"What does it expose?",
+						"What does it hide internally?",
+						"How do I install it?",
+						"How do I import or use it?",
+						"What dependencies does it have?",
+						"Who maintains it?",
+						"What happens if the library changes or breaks?",
+						"How does the language ecosystem manage libraries?",
+						"What is the usage syntax?",
+						"What are the dependency, security, and maintenance trade-offs?",
+					],
+				],
+				[
+					"Framework",
+					"Ecosystem",
+					[
+						"What problem does this framework solve?",
+						"Why isn't a library enough?",
+						"What does the framework control?",
+						"What does my application control?",
+						"Who calls whom?",
+						"What lifecycle does it provide?",
+						"What conventions does it impose?",
+						"How do I extend or customize it?",
+						"What happens when I need something outside its conventions?",
+						"What does the framework provide versus what I build?",
+						"How does this language implement framework behavior?",
+						"What syntax or configuration does it require?",
+						"What are the lock-in and complexity trade-offs?",
+					],
+				],
+				[
+					"Database",
+					"Persistence",
+					[
+						"What problem does a database solve?",
+						"Why isn't normal program memory enough?",
+						"Why isn't a file enough?",
+						"What data needs to persist?",
+						"How is the data organized?",
+						"How is data identified?",
+						"How is data retrieved?",
+						"How is data changed?",
+						"How is consistency maintained?",
+						"What happens when multiple users access it?",
+						"What happens when something fails halfway?",
+						"How does this database model data?",
+						"How do different databases approach the same problem?",
+						"What are the performance, consistency, and scaling trade-offs?",
+					],
+				],
+				[
+					"Query",
+					"Persistence",
+					[
+						"What information am I asking for?",
+						"From where?",
+						"What data should be included?",
+						"What data should be excluded?",
+						"How should results be filtered?",
+						"How should results be ordered?",
+						"How should multiple data sources be combined?",
+						"How should the result be grouped?",
+						"What does the database actually execute?",
+						"What indexes can help?",
+						"What happens if the query is expensive?",
+						"How does another database express the same request?",
+						"What syntax does this database use?",
+						"What are the correctness and performance trade-offs?",
+					],
+				],
+				[
+					"HTTP / API",
+					"Communication",
+					[
+						"What problem does communication between programs create?",
+						"Who is the client?",
+						"Who is the server?",
+						"What resource or action is being requested?",
+						"What does the request contain?",
+						"How does the server process it?",
+						"What does the server return?",
+						"How is success represented?",
+						"How is failure represented?",
+						"What happens if the network fails?",
+						"How is authentication handled?",
+						"How do different languages and frameworks implement HTTP?",
+						"What syntax or API does this framework provide?",
+						"What are the security and performance trade-offs?",
+					],
+				],
+				[
+					"Concurrency",
+					"Execution",
+					[
+						"What problem does concurrency solve?",
+						"What is the difference between concurrency and parallelism?",
+						"Which tasks can make progress independently?",
+						"What data do they share?",
+						"What happens when they access shared data?",
+						"How do they communicate?",
+						"How are they synchronized?",
+						"What can race?",
+						"What can deadlock?",
+						"How does cancellation work?",
+						"How do different languages implement concurrency?",
+						"What syntax or primitives does this language use?",
+						"What are the performance and complexity trade-offs?",
+					],
+				],
+				[
+					"Async / Await",
+					"Execution",
+					[
+						"What problem does asynchronous programming solve?",
+						"Which operations are slow or waiting-bound?",
+						"What happens while the program waits?",
+						"How is completion represented?",
+						"How does execution resume?",
+						"What does an async function return?",
+						"What happens when the async operation fails?",
+						"Can operations run concurrently?",
+						"How is cancellation handled?",
+						"How do different languages implement asynchronous execution?",
+						"What runtime mechanism is underneath?",
+						"What syntax does this language use?",
+						"What are the trade-offs?",
+					],
+				],
+				[
+					"Generics",
+					"Types",
+					[
+						"What problem do generics solve?",
+						"What part of the code stays the same?",
+						"What part changes by type?",
+						"Why not duplicate the code for every type?",
+						"What type constraints are possible?",
+						"When is type correctness checked?",
+						"How is generic code instantiated or represented?",
+						"What happens with invalid type arguments?",
+						"How do different languages implement generics?",
+						"What syntax does this language use?",
+						"How does it affect runtime performance?",
+						"What are the readability and complexity trade-offs?",
+					],
+				],
+				[
+					"Interface / Trait",
+					"Design",
+					[
+						"What problem does an interface or trait solve?",
+						"What behavior is being described?",
+						"What must an implementation provide?",
+						"Who defines the contract?",
+						"Who consumes the contract?",
+						"Does the caller care about the concrete type?",
+						"How is compatibility determined?",
+						"Can behavior have a default implementation?",
+						"What happens when a required behavior is missing?",
+						"How do different languages implement this idea?",
+						"What syntax does this language use?",
+						"What are the flexibility and complexity trade-offs?",
+					],
+				],
+			];
+
+			const codeQuestions = [
+				"What is this block trying to accomplish?",
+				"What enters this block?",
+				"What leaves this block?",
+				"What state or data does it read?",
+				"What state or data does it change?",
+				"What are the steps executed?",
+				"In what order do they execute?",
+				"Where can execution branch?",
+				"What are all possible outcomes?",
+				"What happens in the success/normal case?",
+				"What happens in the failure/abnormal case?",
+				"Who handles the failure?",
+				"What assumptions does this code make?",
+				"What dependencies does it use?",
+				"What happens outside this block?",
+				"Why was this implementation chosen?",
+				"How would another language express the same logic?",
+				"What part is language syntax?",
+				"What part is the actual programming concept?",
+				"Can I explain it without looking at the code?",
+			];
+
+			const langMap = {
+				Variable:
+					"Go → var / := · Rust → let / let mut · Java → type + name · Python → name = value · JS/TS → let / const",
+				Function:
+					"Go → func · Rust → fn · Java → method · Python → def · JS/TS → function / arrow function",
+				Method:
+					"Go → receiver methods · Rust → impl · Java → methods · Python → class methods · JS/TS → object/class methods",
+				"Error Handling":
+					"Go → error values · Rust → Result<T,E> · Java → exceptions · Python → exceptions · JS/TS → throw / try-catch · C → return codes / errno",
+				"Module / Package":
+					"Go → packages · Rust → modules/crates · Java → packages/modules · Python → modules/packages · JS/TS → import/export",
+				Library:
+					"Package managers and module systems connect reusable code to an application.",
+				Framework:
+					"Frameworks typically own more of the application lifecycle than libraries do.",
+				Database:
+					"PostgreSQL/MySQL → relational · MongoDB → document · Redis → in-memory data store",
+				Query:
+					"SQL → SELECT/INSERT/UPDATE/DELETE · MongoDB → document operations · Redis → commands",
+				"HTTP / API":
+					"HTTP request/response · REST · RPC · framework-specific routing/handlers",
+				Generics:
+					"Go → type parameters · Rust → generics + trait bounds · Java → generics · C++ → templates · TypeScript → generics",
+				"Interface / Trait":
+					"Go → interface · Rust → trait · Java → interface · Python → Protocol/ABC · TypeScript → interface",
+			};
+
+			function renderNav(filter = "") {
+				const nav = document.getElementById("nav");
+				nav.innerHTML = '<div class="nav-title">Concepts</div>';
+				concepts
+					.filter(
+						(c) =>
+							c[0].toLowerCase().includes(filter.toLowerCase()) ||
+							c[1].toLowerCase().includes(filter.toLowerCase()),
+					)
+					.forEach((c, i) => {
+						const b = document.createElement("button");
+						b.textContent = c[0];
+						b.dataset.i = i;
+						b.onclick = () => showConcept(i);
+						nav.appendChild(b);
+					});
+				const cb = document.createElement("button");
+				cb.textContent = "Code Block →";
+				cb.dataset.code = "1";
+				cb.onclick = showCode;
+				nav.appendChild(cb);
+			}
+			function showConcept(i) {
+				const [name, cat, qs] = concepts[i];
+				document.getElementById("empty").style.display = "none";
+				const content = document.getElementById("content");
+				content.innerHTML = `
+    <section class="card">
+      <div class="eyebrow">${cat}</div>
+      <h2>${name}</h2>
+      <h3>Before learning the syntax</h3>
+      <ol>${qs.map((q) => `<li>${q}</li>`).join("")}</ol>
+      ${langMap[name] ? `<h3>Then map it to languages</h3><pre>${langMap[name]}</pre>` : ""}
+      <h3>Final test</h3>
+      <p><span class="badge">Explain it without syntax</span></p>
+      <p>If the syntax disappeared tomorrow, could you still explain the concept, its purpose, inputs/outputs, control/data flow, and failure cases?</p>
+    </section>`;
+				setActive(i, false);
+			}
+			function showCode() {
+				document.getElementById("empty").style.display = "none";
+				document.getElementById("content").innerHTML = `
+  <section class="card">
+    <div class="eyebrow">Implementation</div>
+    <h2>Code Block</h2>
+    <p>Use this after you have identified what the code is about. Do not start by explaining every symbol.</p>
+    <ol>${codeQuestions.map((q) => `<li>${q}</li>`).join("")}</ol>
+    <h3>Separate these three layers</h3>
+    <div class="flow">
+      <div class="step"><strong>Syntax</strong> What does the language notation mean?</div>
+      <div class="arrow">↓</div>
+      <div class="step"><strong>Concept</strong> What general programming idea is being implemented?</div>
+      <div class="arrow">↓</div>
+      <div class="step"><strong>Behavior</strong> What actually happens at runtime?</div>
+    </div>
+    <h3>Final test</h3>
+    <p>Explain the block in plain language, trace one concrete input through it, then recreate the logic without looking at the original.</p>
+  </section>`;
+				setActive(-1, true);
+			}
+			function setActive(i, isCode) {
+				document.querySelectorAll(".nav button").forEach((b, n) => {
+					b.classList.toggle(
+						"active",
+						isCode ? b.dataset.code === "1" : Number(b.dataset.i) === i,
+					);
+				});
+			}
+			document
+				.getElementById("search")
+				.addEventListener("input", (e) => renderNav(e.target.value));
+			renderNav();
+			showConcept(0);
+		</script>
+	</body>
+</html>
