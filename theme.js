@@ -63,6 +63,11 @@
   }
 
   function buildSwitcher(container) {
+    // Clear any existing buttons (in case boot() runs more than once)
+    var existing = container.querySelectorAll(".theme-btn");
+    for (var i = 0; i < existing.length; i++) {
+      existing[i].remove();
+    }
     container.className = "theme-switcher";
     var current = document.documentElement.getAttribute("data-theme") || DEFAULT_THEME;
     THEMES.forEach(function (t) {
