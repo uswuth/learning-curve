@@ -96,11 +96,31 @@
     ensureCss();
     apply(getPreferred());
     // Only render the switcher on the root/index page.
-    // Topic/detail pages just inherit the theme — no switcher UI needed.
+    // Topic/detail pages: just inherit the theme + get a back button.
     var path = location.pathname.replace(/\/index\.html$/, '/').replace(/\/$/, '');
     if (path === '' || path === '/') {
       var container = getOrCreateSwitcher();
       buildSwitcher(container);
+    } else {
+      injectBackButton();
+    }
+  }
+
+  /* ---- global back button for topic/detail pages ---- */
+  function injectBackButton() {
+    if (document.getElementById("topic-back-btn")) return;
+    var btn = document.createElement("a");
+    btn.id = "topic-back-btn";
+    btn.className = "back-btn";
+    btn.href = "/";
+    btn.setAttribute("data-back-to", "home");
+    btn.textContent = "\u2190 Back to home";
+    // Insert as first child of <main> if it exists, else append to body
+    var main = document.querySelector("main");
+    if (main) {
+      main.insertBefore(btn, main.firstChild);
+    } else {
+      document.body.appendChild(btn);
     }
   }
 

@@ -13,6 +13,13 @@
   --radius-lg: 12px;
   --radius: 10px;
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* back button tokens */
+  --back-btn-bg: var(--panel);
+  --back-btn-border: var(--border);
+  --back-btn-text: var(--text);
+  --back-btn-hover-bg: var(--panel2);
+  --back-btn-hover-border: var(--accent2);
 }
 
 /* ============================================================
