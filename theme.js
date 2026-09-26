@@ -101,9 +101,12 @@
     ensureCss();
     apply(getPreferred());
     // Only render the switcher on the root/index page.
+    // Detect root page by its content (has search-input, no nav),
+    // not by URL path — GitHub Pages serves under /repo-name/ subpath.
     // Topic/detail pages: just inherit the theme + get a back button.
-    var path = location.pathname.replace(/\/index\.html$/, '/').replace(/\/$/, '');
-    if (path === '' || path === '/') {
+    var isRootPage = !!document.getElementById("search-input") &&
+                     !document.getElementById("nav");
+    if (isRootPage) {
       var container = getOrCreateSwitcher();
       buildSwitcher(container);
     } else {
