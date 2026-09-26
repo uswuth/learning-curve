@@ -113,34 +113,7 @@
 			main {
 				min-width: 0;
 			}
-			.you-are-here {
-				position: sticky;
-				top: 10px;
-				display: flex;
-				align-items: center;
-				gap: 6px;
-				font-size: 12px;
-				color: var(--muted);
-				margin: 0 0 14px;
-				padding: 4px 0;
-			}
 
-			.you-are-here a {
-				color: var(--accent2);
-				text-decoration: none;
-				font-weight: 600;
-				transition: color .15s;
-			}
-
-			.you-are-here a:hover {
-				color: var(--accent);
-				text-decoration: underline;
-			}
-
-			.you-are-here .sep {
-				color: var(--faint);
-				margin: 0 2px;
-			}
 			.eyebrow {
 				color: var(--accent);
 				font-size: 12px;
@@ -225,41 +198,8 @@
 			}
 		</style>
 		<link rel="stylesheet" href="../../themes.css" />
-		<script>
-		/* Apply persisted theme (fallback if SW not yet active) */
-		try { document.documentElement.setAttribute("data-theme", localStorage.getItem("lc-theme") || "nord"); } catch (_) {}
-
-		/* Inject back button (works without SW — so new topic pages get it for free) */
-		(function () {
-			if (document.getElementById("topic-back-btn")) return;
-			var btn = document.createElement("a");
-			btn.id = "topic-back-btn";
-			btn.className = "back-btn";
-			btn.href = "/";
-			btn.textContent = "\u2190 Back to home";
-			var main = document.querySelector("main");
-			if (main) main.insertBefore(btn, main.firstChild);
-			else document.body.appendChild(btn);
-		})();
-		</script>
-		<style>
-		/* Apply persisted theme (fallback if SW not yet active) */
-		try { document.documentElement.setAttribute("data-theme", localStorage.getItem("lc-theme") || "nord"); } catch (_) {}
-
-		/* Inject back button (works without SW — so new topic pages get it for free) */
-		(function () {
-			if (document.getElementById("topic-back-btn")) return;
-			var btn = document.createElement("a");
-			btn.id = "topic-back-btn";
-			btn.className = "back-btn";
-			btn.href = "/";
-			btn.textContent = "\u2190 Back to home";
-			var main = document.querySelector("main");
-			if (main) main.insertBefore(btn, main.firstChild);
-			else document.body.appendChild(btn);
-		})();
-		</script>
-	</head>
+		<script src="../../theme.js"></script>
+		</head>
 	<body>
 		<div class="app">
 			<header>

@@ -51,11 +51,12 @@ async function fetchAndPatch(request) {
 }
 
 function injectThemeAssets(html) {
+  var result = html;
   // PATH-AGNOSTIC duplicate detection:
   // Check if themes.css and theme.js are already referenced anywhere
   // in the document (any path — relative or absolute).
-  var hasCss = /<link[^>]+href\s*=\s*["'][^"']*\bthemes\.css\b/i.test(html);
-  var hasJs  = /<script[^>]+src\s*=\s*["'][^"']*\btheme\.js\b/i.test(html);
+  var hasCss = /<link[^>]+href\s*=\s*["'][^"']*\bthemes\.css\b/i.test(result);
+  var hasJs  = /<script[^>]+src\s*=\s*["'][^"']*\btheme\.js\b/i.test(result);
   // Inject only what's missing
   if (!hasCss) {
     if (result.indexOf('<head>') !== -1) {

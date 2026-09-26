@@ -36,7 +36,12 @@
 
   /* ---- dynamic stylesheet injection ---- */
   function ensureCss() {
-    if (document.querySelector('link[rel="stylesheet"][href="' + CSS_PATH + '"]')) return;
+    if (document.querySelector('link[rel="stylesheet"]')) {
+      var links = document.querySelectorAll('link[rel="stylesheet"]');
+      for (var i = 0; i < links.length; i++) {
+        if (links[i].href.indexOf(CSS_PATH) !== -1) return;
+      }
+    }
     var link = document.createElement("link");
     link.rel = "stylesheet";
     link.href = CSS_PATH;
