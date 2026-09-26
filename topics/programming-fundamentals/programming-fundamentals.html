@@ -5,8 +5,12 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
 		<title>Programming Concept Navigator</title>
 		<style>
-			:root { --radius: 10px; }
-			* { box-sizing: border-box; }
+			:root {
+				--radius: 10px;
+			}
+			* {
+				box-sizing: border-box;
+			}
 			html {
 				scrollbar-width: thin;
 				scrollbar-color: var(--border) transparent;
@@ -198,10 +202,18 @@
 				}
 			}
 		</style>
-		<script>/* apply persisted theme (fallback if SW not yet active) */ try { document.documentElement.setAttribute("data-theme", localStorage.getItem("lc-theme") || "nord"); } catch(_) {} </script>
-		</head>
+		<link rel="stylesheet" href="../../themes.css" />
+		<script>
+			/* apply persisted theme (fallback if SW not yet active) */ try {
+				document.documentElement.setAttribute(
+					"data-theme",
+					localStorage.getItem("lc-theme") || "nord",
+				);
+			} catch (_) {}
+		</script>
+	</head>
 	<body>
-	<div class="app">
+		<div class="app">
 			<header>
 				<h1>Programming Concept Navigator</h1>
 				<p class="subtitle">
@@ -225,7 +237,8 @@
 					<div id="empty" class="empty">No matching concept.</div>
 				</main>
 			</div>
-			</div>
+		</div>
+		<script>
 			const concepts = [
 				[
 					"Variable",
@@ -759,8 +772,9 @@
 					);
 				});
 			}
+			document;
 			document
-			document.getElementById("search")
+				.getElementById("search")
 				.addEventListener("input", (e) => renderNav(e.target.value));
 			renderNav();
 			showConcept(0);
