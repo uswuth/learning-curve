@@ -1,0 +1,93 @@
+/* ============================================================
+   Theme tokens — set on <html data-theme="...">
+   Themes: nord | misty | onedark
+   ============================================================ */
+
+/* ---------- Shared primitives (same across all themes) ---------- */
+:root,
+[data-theme] {
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ============================================================
+   nord
+   ============================================================ */
+[data-theme="nord"] {
+  /* background surface hierarchy */
+  --bg:          #141414;   /* page background        */
+  --panel:       #1b1d20;   /* cards / input surfaces */
+  --panel-2:     #212428;   /* nested panels          */
+  --border:      #33373d;   /* borders / dividers     */
+  --border-soft: #2a2d32;
+
+  /* text */
+  --text:        #d8dee9;
+  --muted:       #818cf0;   /* muted label / eyebrow  */
+  --faint:       #545c68;
+
+  /* accent */
+  --accent:      #88c0d0;   /* primary accent         */
+  --accent-2:    #5e81ac;   /* secondary / focus      */
+  --accent-soft: #2e4854;
+
+  /* surface tint for hover */
+  --hover-bg:    #252830;
+
+  /* code blocks */
+  --code-bg:     #11111b;
+  --code-border: #2e3440;
+  --code-text:   #d8dee9;
+}
+
+/* ============================================================
+   misty
+   ============================================================ */
+[data-theme="misty"] {
+  --bg:          #eef2f7;
+  --panel:       #ffffff;
+  --panel-2:     #f7f9fc;
+  --border:      #d3dce8;
+  --border-soft: #e3e9f2;
+
+  --text:        #1f2a37;
+  --muted:       #4a6fa5;
+  --faint:       #7a8aa0;
+
+  --accent:      #3b6cb7;
+  --accent-2:    #6a8fc9;
+  --accent-soft: #dce6f5;
+
+  --hover-bg:    #f0f4fa;
+
+  --code-bg:     #e9eef5;
+  --code-border: #cdd8e8;
+  --code-text:   #1f2a37;
+}
+
+/* ============================================================
+   onedark
+   ============================================================ */
+[data-theme="onedark"] {
+  --bg:          #1e1e2e;
+  --panel:       #252536;
+  --panel-2:     #2a2a3d;
+  --border:      #363650;
+  --border-soft: #2e2e44;
+
+  --text:        #cdd6f4;
+  --muted:       #a6adc8;
+  --faint:       #6c7086;
+
+  --accent:      #89b4fa;
+  --accent-2:    #b4befe;
+  --accent-soft: #313244;
+
+  --hover-bg:    #2a2a3d;
+
+  --code-bg:     #181825;
+  --code-border: #313244;
+  --code-text:   #cdd6f4;
+}

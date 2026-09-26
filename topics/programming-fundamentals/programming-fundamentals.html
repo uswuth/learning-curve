@@ -6,22 +6,65 @@
 		<title>Programming Concept Navigator</title>
 		<style>
 			:root {
-				--bg: #0d0d0d;
-				--panel: #141414;
-				--panel2: #191919;
-				--border: #292929;
-				--text: #e8e8e8;
-				--muted: #8d8d8d;
-				--accent: #b7c9ff;
-				--accent2: #8ea8ff;
 				--radius: 10px;
+			}
+			[data-theme="nord"] {
+				--bg: #141414;
+				--panel: #1b1d20;
+				--panel2: #212428;
+				--border: #33373d;
+				--border-soft: #2a2d32;
+				--text: #d8dee9;
+				--muted: #818cf0;
+				--faint: #545c68;
+				--accent: #88c0d0;
+				--accent2: #5e81ac;
+				--accent-soft: #2e4854;
+				--hover-bg: #252830;
+				--code-bg: #11111b;
+				--code-border: #2e3440;
+				--code-text: #d8dee9;
+			}
+			[data-theme="misty"] {
+				--bg: #eef2f7;
+				--panel: #ffffff;
+				--panel2: #f7f9fc;
+				--border: #d3dce8;
+				--border-soft: #e3e9f2;
+				--text: #1f2a37;
+				--muted: #4a6fa5;
+				--faint: #7a8aa0;
+				--accent: #3b6cb7;
+				--accent2: #6a8fc9;
+				--accent-soft: #dce6f5;
+				--hover-bg: #f0f4fa;
+				--code-bg: #e9eef5;
+				--code-border: #cdd8e8;
+				--code-text: #1f2a37;
+			}
+			[data-theme="onedark"] {
+				--bg: #1e1e2e;
+				--panel: #252536;
+				--panel2: #2a2a3d;
+				--border: #363650;
+				--border-soft: #2e2e44;
+				--text: #cdd6f4;
+				--muted: #a6adc8;
+				--faint: #6c7086;
+				--accent: #89b4fa;
+				--accent2: #b4befe;
+				--accent-soft: #313244;
+				--hover-bg: #2a2a3d;
+				--code-bg: #181825;
+				--code-border: #313244;
+				--code-text: #cdd6f4;
 			}
 			* {
 				box-sizing: border-box;
 			}
 			html {
 				scrollbar-width: thin;
-				scrollbar-color: #333 transparent;
+				scrollbar-color: var(--border) transparent;
 			}
 
 			::-webkit-scrollbar {
@@ -33,12 +76,12 @@
 			}
 
 			::-webkit-scrollbar-thumb {
-				background: #333;
+				background: var(--border);
 				border-radius: 0;
 			}
 
 			::-webkit-scrollbar-thumb:hover {
-				background: #444;
+				background: var(--faint);
 			}
 			body {
 				margin: 0;
@@ -107,7 +150,7 @@
 				text-align: left;
 				background: none;
 				border: 1px solid transparent;
-				color: #aaa;
+				color: var(--faint);
 				padding: 9px 10px;
 				border-radius: 7px;
 				cursor: pointer;
@@ -149,17 +192,17 @@
 				margin: 7px 0;
 			}
 			code {
-				background: #202020;
+				background: var(--code-bg);
 				padding: 2px 5px;
 				border-radius: 4px;
 			}
 			pre {
-				background: #0a0a0a;
-				border: 1px solid var(--border);
+				background: var(--code-bg);
+				border: 1px solid var(--code-border);
 				padding: 14px;
 				overflow: auto;
 				border-radius: 8px;
-				color: #d8d8d8;
+				color: var(--code-text);
 			}
 			.flow {
 				display: grid;
@@ -210,9 +253,11 @@
 				}
 			}
 		</style>
+		<link rel="stylesheet" href="../../themes.css" />
 	</head>
 	<body>
-		<div class="app">
+		<div id="theme-switcher"></div>
+	<div class="app">
 			<header>
 				<h1>Programming Concept Navigator</h1>
 				<p class="subtitle">
@@ -238,7 +283,8 @@
 			</div>
 		</div>
 
-		<script>
+			<script src="../../theme.js"></script>
+	<script>
 			const concepts = [
 				[
 					"Variable",
@@ -777,6 +823,7 @@
 				.addEventListener("input", (e) => renderNav(e.target.value));
 			renderNav();
 			showConcept(0);
-		</script>
+			initTheme();
+			</script>
 	</body>
 </html>
