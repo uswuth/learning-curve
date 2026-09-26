@@ -5,63 +5,8 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
 		<title>Programming Concept Navigator</title>
 		<style>
-			:root {
-				--radius: 10px;
-			}
-			[data-theme="nord"] {
-				--bg: #141414;
-				--panel: #1b1d20;
-				--panel2: #212428;
-				--border: #33373d;
-				--border-soft: #2a2d32;
-				--text: #d8dee9;
-				--muted: #818cf0;
-				--faint: #545c68;
-				--accent: #88c0d0;
-				--accent2: #5e81ac;
-				--accent-soft: #2e4854;
-				--hover-bg: #252830;
-				--code-bg: #11111b;
-				--code-border: #2e3440;
-				--code-text: #d8dee9;
-			}
-			[data-theme="misty"] {
-				--bg: #eef2f7;
-				--panel: #ffffff;
-				--panel2: #f7f9fc;
-				--border: #d3dce8;
-				--border-soft: #e3e9f2;
-				--text: #1f2a37;
-				--muted: #4a6fa5;
-				--faint: #7a8aa0;
-				--accent: #3b6cb7;
-				--accent2: #6a8fc9;
-				--accent-soft: #dce6f5;
-				--hover-bg: #f0f4fa;
-				--code-bg: #e9eef5;
-				--code-border: #cdd8e8;
-				--code-text: #1f2a37;
-			}
-			[data-theme="onedark"] {
-				--bg: #1e1e2e;
-				--panel: #252536;
-				--panel2: #2a2a3d;
-				--border: #363650;
-				--border-soft: #2e2e44;
-				--text: #cdd6f4;
-				--muted: #a6adc8;
-				--faint: #6c7086;
-				--accent: #89b4fa;
-				--accent2: #b4befe;
-				--accent-soft: #313244;
-				--hover-bg: #2a2a3d;
-				--code-bg: #181825;
-				--code-border: #313244;
-				--code-text: #cdd6f4;
-			}
-			* {
-				box-sizing: border-box;
-			}
+			:root { --radius: 10px; }
+			* { box-sizing: border-box; }
 			html {
 				scrollbar-width: thin;
 				scrollbar-color: var(--border) transparent;
@@ -253,10 +198,9 @@
 				}
 			}
 		</style>
-		<link rel="stylesheet" href="../../themes.css" />
-	</head>
+		<script>/* apply persisted theme (fallback if SW not yet active) */ try { document.documentElement.setAttribute("data-theme", localStorage.getItem("lc-theme") || "nord"); } catch(_) {} </script>
+		</head>
 	<body>
-		<div id="theme-switcher"></div>
 	<div class="app">
 			<header>
 				<h1>Programming Concept Navigator</h1>
@@ -281,10 +225,7 @@
 					<div id="empty" class="empty">No matching concept.</div>
 				</main>
 			</div>
-		</div>
-
-			<script src="../../theme.js"></script>
-	<script>
+			</div>
 			const concepts = [
 				[
 					"Variable",
@@ -819,11 +760,10 @@
 				});
 			}
 			document
-				.getElementById("search")
+			document.getElementById("search")
 				.addEventListener("input", (e) => renderNav(e.target.value));
 			renderNav();
 			showConcept(0);
-			initTheme();
-			</script>
+		</script>
 	</body>
 </html>

@@ -60,12 +60,6 @@ function escapeHtml(s) {
 // Initial render
 render();
 
-// Theme switcher — build after DOM is ready
-const switcherEl = document.querySelector("#theme-switcher");
-if (switcherEl) {
-  buildSwitcher(switcherEl);
-}
-
 // Search: debounce + fuzzy substring match (title + snippet)
 let debounceTimer;
 if (searchInput) {
