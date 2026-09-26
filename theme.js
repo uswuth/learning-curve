@@ -104,14 +104,18 @@
     // Detect root page by its content (has search-input, no nav),
     // not by URL path — GitHub Pages serves under /repo-name/ subpath.
     // Topic/detail pages: just inherit the theme + get a back button.
-    var isRootPage = !!document.getElementById("search-input") &&
-                     !document.getElementById("nav");
-    if (isRootPage) {
-      var container = getOrCreateSwitcher();
-      buildSwitcher(container);
-    } else {
-      injectBackButton();
-    }
+    // Defer check until DOM is fully ready so search-input is present.
+    requestAnimationFrame(function () {
+      var searchInput = document.getElementById("search-input");
+      var nav = document.getElementById("nav");
+      var isRootPage = !!searchInput && !nav;
+      if (isRootPage) {
+        var container = getOrCreateSwitcher();
+        buildSwitcher(container);
+      } else {
+        injectBackButton();
+      }
+    });
   }
 
   /* ---- global back button for topic/detail pages ---- */

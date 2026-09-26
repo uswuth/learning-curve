@@ -80,7 +80,7 @@ function injectThemeAssets(html) {
 /* ---- Install: cache theme assets immediately ---- */
 self.addEventListener("install", function (event) {
   event.waitUntil(
-    caches.open("theme-assets-v1").then(function (cache) {
+    caches.open("theme-assets-v2").then(function (cache) {
       return cache.addAll([THEME_CSS, THEME_JS]);
     })
   );
@@ -92,7 +92,7 @@ self.addEventListener("activate", function (event) {
   event.waitUntil(
     caches.keys().then(function (keys) {
       return Promise.all(
-        keys.filter(function (k) { return k !== "theme-assets-v1"; })
+        keys.filter(function (k) { return k !== "theme-assets-v2"; })
             .map(function (k) { return caches.delete(k); })
       );
     })
