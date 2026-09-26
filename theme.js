@@ -156,22 +156,25 @@
 	  }
 
 	/* ---- global back button for topic/detail pages ---- */
-	function injectBackButton() {
-		if (document.getElementById("topic-back-btn")) return;
-		var btn = document.createElement("a");
-		btn.id = "topic-back-btn";
-		btn.className = "back-btn";
-		btn.href = "/learning-curve/";
-		btn.setAttribute("data-back-to", "home");
-		btn.textContent = "\u2190 Back to home";
-		// Insert as first child of <main> if it exists, else append to body
-		var main = document.querySelector("main");
-		if (main) {
-			main.insertBefore(btn, main.firstChild);
-		} else {
-			document.body.appendChild(btn);
-		}
-	}
+	  function injectBackButton() {
+	    if (document.getElementById("topic-back-btn")) return;
+	    var btn = document.createElement("a");
+	    btn.id = "topic-back-btn";
+	    btn.className = "back-btn";
+	    // Dynamic root URL: works on GH Pages (/learning-curve/) and local dev (/)
+	    btn.href = location.hostname === "localhost" || location.hostname === "127.0.0.1" 
+	      ? "/" 
+	      : "/learning-curve/";
+	    btn.setAttribute("data-back-to", "home");
+	    btn.textContent = "\u2190 Back to home";
+	    // Insert as first child of <main> if it exists, else append to body
+	    var main = document.querySelector("main");
+	    if (main) {
+	      main.insertBefore(btn, main.firstChild);
+	    } else {
+	      document.body.appendChild(btn);
+	    }
+	  }
 
 	if (document.readyState === "loading") {
 		document.addEventListener("DOMContentLoaded", boot);
