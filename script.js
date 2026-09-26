@@ -11,9 +11,13 @@ const topicCount = document.querySelector("#topic-count");
 topics.forEach((topic) => {
 	const link = document.createElement("a");
 
-	link.herf = topic.path;
+	link.href = topic.path;
 	link.textContent = topic.name;
 	link.className = "topic-card";
 
-	topicsContainer.textContent = `${topics.length} topic${topics.length === 1 ? "" : "s"}`;
+	topicsContainer.appendChild(link);
 });
+
+topicCount.textContent = `${topics.length} ${
+	topics.length === 1 ? "topic" : "topics"
+}`;
